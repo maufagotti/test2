@@ -1,0 +1,269 @@
+\documentclass{article}
+\usepackage[textwidth=17cm]{geometry}
+\usepackage{comment}
+\usepackage{enumerate}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{braket}
+\usepackage{graphicx}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage[colorlinks,bookmarks=false,citecolor=NavyBlue,linkcolor=OliveGreen,urlcolor=blue]{hyperref}
+\newcommand{\be}{\begin{equation}}
+\newcommand{\ee}{\end{equation}}
+\newcommand{\ba}{\begin{aligned}}
+\newcommand{\ea}{\end{aligned}}
+\newcommand{\1}{{\rm I}}
+
+\newcounter{examplecounter}
+
+\usepackage{mdframed} % Add easy frames to paragraphs
+\newmdenv[ % Define mdframe settings and store as leftrule
+  linecolor=Gray,
+  topline=false,
+  bottomline=false,
+  rightline=false,
+  skipabove=\topsep,
+  skipbelow=\topsep
+]{leftrule}
+\newenvironment{solution}{
+\begin{description}
+\item \itshape\color{NavyBlue}}{
+\end{description}
+}
+
+
+\def\doi{http://dx.doi.org/}
+
+\begin{document}
+\title{TD 1: Characteristic functions, variations on a theme}
+\date{07/09/2015}
+%\begin{abstract}
+%(\dots)
+%\end{abstract}
+\maketitle
+\section{Worksheet }
+\begin{enumerate}
+\item \textbf{General properties of the characteristic functions.} 
+\begin{description}
+\item[Remind:] Let $\xi$ be a random variable with distribution $\pi_\xi(x)$, the expectation value of $e^{i t x}$, \emph{i.e.} the Fourier transform of $\pi_\xi(x)$,  is called \emph{characteristic function}
+\be
+\Phi_\xi(t)=\int_{-\infty}^\infty\mathrm d x  \pi_\xi(x)e^{i t x}\, .
+\ee
+The cumulants $\kappa_n$ are given by $\kappa_n=(-i)^n\frac{\partial^n}{\partial t^n}\Bigr|_{t=0}\log \Phi_\xi (t)$
+\end{description}
+\begin{enumerate}
+\item  \textsc{[easy]}  Prove the following properties:
+\begin{itemize}
+\item[-] $\Phi_\xi(0)=1$.
+\item[-] $\Phi_\xi(-t)=\Phi_\xi^*(t)$. 
+\item[-] $|\Phi_\xi(t)|\leq 1$. 
+\item[-] $\Phi_{a\xi+b}(t)=e^{i b t}\Phi_{\xi}(a t)$.
+\end{itemize}
+\item  \textsc{[easy]}  Let $\xi_1$ and $\xi_2$ two independent random variables, which is the characteristic function of their sum? What about the sum of $n$ independent random variables? 
+\item \textsc{[easy]} Name the first two cumulants. Which is the variance of the sum of two independent random variables?
+\end{enumerate}
+\item \textbf{Sum of random variables with uniform distribution.}
+\begin{description}
+\item \emph{This problem has been solved more than 60 years ago, and a solution, obtained via convolution formulae, can be found in the R\'enyi's book \cite{Renyi}  of 1970.}
+\end{description}
+\begin{enumerate}
+\item  \textsc{[easy]}  Compute the characteristic function of the sum of $n$ random variables $\xi_j$ with uniform distribution $\pi_{\xi_j}(x)=\frac{1}{2a}\theta_H(x+a)\theta_H(a-x)$, where $\theta_H(x+a)$ is the Heaviside theta function.
+\item \textsc{[easy-medium]} Cast the characteristic function of  $\xi^{(n)}=\sum_{j=1}^n\xi_j$ in the following form:
+\be
+\Phi_{\xi^{(n)}}=\frac{1}{(2i a)^n}t^{-n}\sum_{k=0}^n\binom{n}{k}(-1)^ke^{i (n-2k) a t} 
+\ee
+\begin{description}
+\item[Hint 1:] Express the sin functions using complex exponentials ($\sin x=\frac{e^{ix}-e^{-i x}}{2 i}$) and use the binomial theorem $(a+b)^j=\sum_{k=0}^j\binom{j}{k}a^j b^{j-k}$.
+\end{description}
+\item  \textsc{[hard]} Calculate the inverse Fourier transform of the characteristic function and show that the distribution of $\xi^{(n)}$ can be written as~\cite{BG:2002,Feller}
+\be\label{eq:probsum}
+\pi_{\xi^{(n)}}=\frac{1}{(n-1)! (2a)^n}\sum_{k=0}^n \binom{n}{k}(-1)^k\max\Bigl((n-2k)a-x,0\Bigr)^{n-1}\, .
+\ee
+\begin{description}
+\item[Hint 1:]  Move the sum outside of the integral of the inverse Fourier transform. \emph{Warning}: the resulting integrals are divergent, but the divergencies have to simplify, so don't worry too much! The finite part of the integrals can be extracted using the \emph{Cauchy principal value}, usually denoted by $\textrm{P.V.}$, which, in the case of a singularity at zero, reads as
+\be
+\mathrm{P.V.}\int_{-\infty}^\infty f(t)=\lim_{\epsilon\rightarrow 0^+}\Bigl[\int_{-\infty}^{-\epsilon}f(t)+\int^{\infty}_{\epsilon}f(t)\Bigr]\, .
+\ee 
+\item[Hint 2:] Try to compute the (finite part of the) integrals by integrating by parts $n-1$ times (note that the original product of sin functions has a zero of order $n$ at $t=0$). 
+\item[Hint 3:] $\mathrm{P.V.}\int_{-\infty}^\infty\mathrm d t t^{-1} e^{i t b}=i \pi \mathrm{sgn}(b)$.
+\item[Hint 4:] $\sum_{k=0}^n \binom{n}{k}(-1)^k (x+k)^{j}=0$ for any $x$ and integer $j=1,\dots,n-1$.
+
+\end{description}
+\item  \textsc{[medium]}  Verify the validity of the central limit theorem for the sum of variables with uniform distribution (you can work with the characteristic function). 
+\begin{description}
+\item[Hint 1:]$\log\frac{\sin t}{t}=\sum_{n=1}^\infty \frac{(-1)^n B_{2n}}{2n (2n)!}  (2t)^{2n} $, where the coefficients $B_n$ are known as ``Bernoulli numbers'', $B_0 = 1$, $B_2=\frac{1}{6}$, $B_4=-\frac{1}{30}$, et cetera.
+\end{description}
+\end{enumerate}
+\item \textbf{Stable distributions.}
+\begin{description}
+\item[Remind:] A distribution is called \emph{stable} if a linear combination of two independent random variables has the same distribution, up to mean and scale parameters. 
+\end{description}
+\begin{enumerate}
+\item \textsc{[medium]} Prove that the Gaussian $\pi_\xi(x)=\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x-\mu)^2}{2\sigma^2}}$ is a stable distribution.
+\item \textsc{[easy]} Consider a characteristic function of the form
+\be\label{eq:PhiLevi}
+\Phi_\xi(t)=\exp\bigl(i t \mu-(c_0+ic_1 f_\alpha (t))|t|^\alpha)\bigr)\, ,
+\ee
+with $1\leq \alpha< 2$. Show that $f_\alpha(t)=\mathrm{sgn}(t)$, for $\alpha\neq 1$, and $f_1(t)=\mathrm{sgn}(t)\log |t|$ produce stable distributions. These are also known as \emph{L\'evy distributions}, after Paul L\'evy, the first mathematician who studied them. 
+\item \textsc{[easy]} Find a distinctive feature of the L\'evy  distributions.
+\item \textsc{[easy]} Assumes $\alpha\neq 1$ and show that, in order to be $\Phi_\xi(t)$ the Fourier transform of a probability distribution, the coefficient $c_1$ can not be arbitrarily large; determine its maximal value. 
+\begin{description}
+\item[Hint 1:] One can show (\textsc{medium-hard}) that the inverse Fourier transform of \eqref{eq:PhiLevi} has the tails
+\be
+\pi_\xi(x)\xrightarrow{|x|\gg 1}
+\frac{\Gamma(1+\alpha)}{2\pi |x|^{1+\alpha}}\Bigl(c_0\sin\frac{\pi\alpha}{2}-c_1\mathrm{sgn}(x)\cos\frac{\pi\alpha}{2}\Bigr)\, .
+\ee
+\end{description}
+\end{enumerate}
+\end{enumerate}
+\begin{thebibliography}{99}
+\bibitem{Renyi} A. R\'enyi, \emph{Probability Theory}, North-Holland Publishing, Amsterdam (1970).
+\bibitem{BG:2002} D. M. Bradley and R. C. Gupta, \emph{On the Distribution of the Sum of n Non-Identically Distributed Uniform Random Variables}, Annals of the Institute of Statistical Mathematics (2002) 54: \href{\doi10.1023/A:1022483715767}{689} [arXiv:\href{https://arxiv.org/abs/math/0411298}{0411298}]
+\bibitem{Feller} W. Feller, \emph{An Introduction to Probability Theory and its Applications}, Vol. II, John Wiley \& Sons, New York (1966).
+\end{thebibliography}
+\newpage
+\section{Solutions }
+\begin{enumerate}
+\item \textbf{General properties of the characteristic functions.} 
+\begin{enumerate}
+\item  \textsc{[easy]}  Prove the following properties:
+\begin{itemize}
+\item[-] $\Phi_\xi(0)=1$.
+\begin{solution}
+The total probability is normalized to $1$.
+\end{solution}
+\item[-] $\Phi_\xi(-t)=\Phi_\xi^*(t)$. 
+\begin{solution}
+The probability distribution is real.
+\end{solution}
+\item[-] $|\Phi_\xi(t)|\leq 1$. 
+\begin{solution}
+The absolute value of the integral is bounded from above by the integral of the absolute value, which is $\Phi_\xi(0)$.
+\end{solution}
+\item[-] $\Phi_{a\xi+b}(t)=e^{i b t}\Phi_{\xi}(a t)$.
+\begin{solution}
+Under a change of variables $\xi^\prime=f(\xi)$, with $f(\xi)$ monotonous, the probability distribution transforms as follows
+\be
+\pi_{\xi^\prime}(x)=\frac{\pi_\xi(f^{-1}(x)}{|f'(f^{-1}(x))|}\, .
+\ee
+In particular, under a linear transformation we have
+\be
+\pi_{a\xi+b}(t)=|a|^{-1}\pi_\xi((x-b)/a)
+\ee
+and hence
+\be
+\Phi_{a\xi+b}(t)=\int\mathrm d t\ e^{i x t}|a|^{-1}\pi_\xi((x-b)/a)=e^{i b t}\Phi_{\xi}(a t)\, .
+\ee
+\end{solution}
+\end{itemize}
+\item  \textsc{[easy]}  Let $\xi_1$ and $\xi_2$ two independent random variables, which is the characteristic function of their sum? What about the sum of $n$ independent random variables? 
+\begin{solution}
+Two random variables $\xi_1$ and $\xi_2$ are called independent if $\pi_{\xi_1,\xi_2}(x_1,x_2)=\pi_{\xi_1}(x_1)\pi_{\xi_2}(x_2)$.
+The probability distribution of $\xi_1+\xi_2$ can be obtained by a weighted integration over all the possible values of the variables with a given sum:
+\be
+\pi_{\xi_1+\xi_2}(x)=\int\mathrm d x_2 \pi_{\xi_1,\xi_2}(x-x_2,x_2)=[\pi_{\xi_1}\ast \pi_{\xi_2}](x)\, .
+\ee
+The Fourier transform is then given by
+\begin{multline}
+\Phi_{\xi_1+\xi_2}(t)=\int_{-\infty}^\infty\mathrm d x e^{i t x} [\pi_{\xi_1}\ast \pi_{\xi_2}](x)=\int_{-\infty}^\infty\mathrm d x e^{i t x}\int_{-\infty}^\infty \mathrm d y\pi_{\xi_1}(y)\pi_{\xi_2} (x-y)=\\
+\int_{-\infty}^\infty\mathrm d x e^{i t (x+y)}\int_{-\infty}^\infty \mathrm d y\pi_{\xi_1}(y)\pi_{\xi_2} (x)=\Phi_{\xi_1}(t)\Phi_{\xi_2}(t)\, .
+\end{multline}
+This can be readily generalized to $N$ variables 
+\be\label{eq:Phisum}
+\Phi_{\sum_i^N \xi_i}(t)=\prod_{i=1}^N\Phi_{\xi_i}(t)\, .
+\ee
+\end{solution}
+\item \textsc{[easy]} Name the first two cumulants. Which is the variance of the sum of two independent random variables?
+\begin{solution}
+The first cumulant $\kappa_1$ is the mean. The second cumulant is the variance. 
+The cumulants are proportional to the coefficients of the series expansion of the logarithm of the characteristic function. Since the logarithm of a product is the sum of the logarithms, the $n$-th cumulant of the sum of two independent random variables is the sum of the $n$-th cumulant of the random variables. In particular, this applies to $n=2$, \emph{i.e.} to the variance. 
+\end{solution}
+\end{enumerate}
+\item \textbf{Sum of random variables with uniform distribution.}
+\begin{enumerate}
+\item  \textsc{[easy]}  Compute the characteristic function of the sum of $n$ random variables $\xi_j$ with uniform distribution $\pi_{\xi_j}(x)=\frac{1}{2a}\theta_H(x+a)\theta_H(a-x)$, where $\theta_H(x+a)$ is the Heaviside theta function.
+\begin{solution}
+The characteristic function of $\pi_{\xi_j}$ is simply given by $\frac{\sin(a t)}{a t}$, therefore the characteristic function of the sum of $n$ uniform variables is $(\frac{\sin(a t)}{a t})^n$.
+\end{solution}
+\item \textsc{[easy-medium]} Cast the characteristic function of  $\xi^{(n)}=\sum_{j=1}^n\xi_j$ in the following form:
+\be
+\Phi_{\xi^{(n)}}=\frac{1}{(2i a)^n}t^{-n}\sum_{k=0}^n\binom{n}{k}(-1)^ke^{i (n-2k) a t} 
+\ee
+\begin{solution}
+\begin{multline}
+\Bigl(\frac{\sin(a t)}{a t}\Bigr)^n=\frac{t^{-n}}{(2i a)^n}(e^{i a t}-e^{-i a t})^n=\frac{t^{-n}}{(2i a)^n}\sum_{k=0}^n\binom{n}{k}[e^{i a t}]^{n-k}[-e^{-i a t}]^{k}=\\\frac{t^{-n}}{(2i a)^n}\sum_{k=0}^n\binom{n}{k}(-1)^k e^{i (n-2k)a t}
+\end{multline}
+\end{solution}
+\item  \textsc{[hard]} Calculate the inverse Fourier transform of the characteristic function and show that the distribution of $\xi^{(n)}$ can be written as~\cite{BG:2002}
+\be\label{eq:probsum}
+\pi_{\xi^{(n)}}=\frac{1}{(n-1)! (2a)^n}\sum_{k=0}^n \binom{n}{k}(-1)^k\max\Bigl((n-2k)a-x,0\Bigr)^{n-1}\, .
+\ee
+\begin{solution}
+We must compute
+\be
+\pi_{\xi^{(n)}}(x)=\frac{1}{2\pi}\int\mathrm d t e^{-i x t}\frac{1}{(2i a)^n}t^{-n}\sum_{k=0}^n\binom{n}{k}(-1)^ke^{i (n-2k) a t} \, .
+\ee
+First, we move the sum outside of the integral and take the principal value
+\be
+\pi_{\xi^{(n)}}(x)=\frac{1}{2\pi}\sum_{k=0}^n{\mathrm P.V.}\int\mathrm d t \frac{1}{(2i a)^n}t^{-n}\binom{n}{k}(-1)^ke^{i ((n-2k) a-x) t}\, .
+\ee
+Since $(\sin(a t))^n$ has a zero of order $n$ at $t=0$, the boundary parts which  come from the integration by parts (taking the integral of $t^{-n}$ and the derivative of the rest) and which could have given contribution from $t=0$ are in fact zero for $n-1$ consecutive integration by parts. Thus we find
+\be
+\pi_{\xi^{(n)}}(x)=\frac{1}{2\pi}\sum_{k=0}^n\binom{n}{k}(-1)^k\frac{((n-2k)a-x)^{n-1}}{(2a)^n(n-1)!}{\mathrm P.V.}\int\mathrm d t\ t^{-1}e^{i ((n-2k)a-x)t}\, .
+\ee
+The integral can be easily evaluated and gives
+\begin{multline}
+\pi_{\xi^{(n)}}(x)=\sum_{k=0}^n\binom{n}{k}(-1)^k\frac{ ((n-2k)a-x)^{n-1}}{2(2a)^n(n-1)!}\mathrm{sgn}((n-2k)a-x)=\\
+\sum_{k=0}^n\binom{n}{k}(-1)^k\frac{ ((n-2k)a-x)^{n-1}}{2(2a)^n(n-1)!}[2\theta_H((n-2k)a-x)-1]=\\
+\sum_{k=0}^n\binom{n}{k}(-1)^k\frac{ ((n-2k)a-x)^{n-1}}{(2a)^n(n-1)!}\theta_H((n-2k)a-x)\, ,
+\end{multline}
+where in the last step we used the identity in Hint 4 to keep only the term multiplied by the step function. The proof is concluded noting that $x\theta_H(x)=\max(x,0)$.
+
+\end{solution}
+\item  \textsc{[medium]}  Verify the validity of the central limit theorem for the sum of variables with uniform distribution (you can work with the characteristic function). 
+\begin{solution}
+The characteristic function of $\tilde\xi=\frac{\xi^{(n)}}{\sqrt{n}}=\frac{1}{\sqrt{n}}\sum_{j=1}^n\xi_j$ is given by
+\begin{multline}
+\phi_{\tilde \xi}(t)=\phi_{\xi^{(j)}}(t/\sqrt{n})=\Bigl(\sqrt{n}\frac{\sin(a t/\sqrt{n})}{a t}\Bigr)^n=\exp\Bigl(n\log\Bigl(\sqrt{n}\frac{\sin(a t/\sqrt{n})}{a t}\Bigr)\Bigr)=\\
+\exp\Bigl(\sum_{j=1}^\infty n^{1-j}\frac{(-1)^j B_{2j}}{2j (2j)!}  (2at)^{2j} \Bigr)=\exp\Bigl(-\frac{(at)^2}{6} +O(1/n)\Bigr)\, .
+\end{multline}
+In the limit $n\rightarrow\infty$ this approaches the characteristic function of a Gaussian with mean zero and variance $a^2/3$.
+\end{solution}
+\end{enumerate}
+\item \textbf{Stable distributions.}
+\begin{enumerate}
+\item \textsc{[medium]} Prove that the Gaussian $\pi_\xi(x)=\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x-\mu)^2}{2\sigma^2}}$ is a stable distribution.
+\begin{solution}
+One can easily show that the convolution of two Gaussians is a Gaussian. Since any Gaussian can be transformed to any other Gaussian by means of a translation and a change in scale, the Gaussian is a stable distribution.   
+\end{solution}
+\item \textsc{[easy]} Consider a characteristic function of the form
+\be\label{eq:PhiLevi}
+\Phi_\xi(t)=\exp\bigl(i t \mu-(c_0+ic_1 f_\alpha (t))|t|^\alpha)\bigr)\, ,
+\ee
+with $1\leq \alpha< 2$. Show that $f_\alpha(t)=\mathrm{sgn}(t)$, for $\alpha\neq 1$, and $f_1(t)=\mathrm{sgn}(t)\log |t|$ produce stable distributions. These are also known as \emph{L\'evy distributions}, after Paul L\'evy, the first mathematician who studied them. 
+\begin{solution}
+The sum of two random variables with a L\'evi distribution has the characteristic function
+\be
+\Phi_{\xi_1+\xi_2}(t)=\exp\bigl(2i t \mu-(c_0+ic_1 f_\alpha (t))|2^{1/\alpha}t|^\alpha)\, .\bigr)
+\ee
+If $\alpha\neq 1$ this is mapped into the same distribution by the transformation $t\rightarrow 2^{-1/\alpha} t$ and $\mu\rightarrow 2^{1/\alpha-1}\mu$. For $\alpha=1$ the transformation is $t\rightarrow 2^{-1}t$ and $\mu\rightarrow\mu-c_1\log 2$.
+\end{solution}
+\item \textsc{[easy]} Find a distinctive feature of the L\'evy  distributions.
+\begin{solution}
+The second cumulant (the variance) diverges.
+\end{solution}
+\item \textsc{[easy]} Assumes $\alpha\neq 1$  and show that, in order to be $\Phi_\xi(t)$ the Fourier transform of a probability distribution, the coefficient $c_1$ can not be arbitrarily large; determine its maximal value. 
+\begin{solution} 
+The probability distribution must be positive or equal to zero, therefore the coefficients of the tails of the L\'evi distributions must be positive. Since 
+\be
+\pi_\xi(x)\xrightarrow{|x|\gg 1}
+\frac{\Gamma(1+\alpha)}{2\pi |x|^{1+\alpha}}\Bigl(c_0\sin\frac{\pi\alpha}{2}-c_1\mathrm{sgn}(x)\cos\frac{\pi\alpha}{2}\Bigr)
+\ee
+we find
+\be
+|c_1|<c_0 \Bigl|\tan\frac{\pi\alpha}{2}\Bigr|
+\ee
+\end{solution}
+\end{enumerate}
+\end{enumerate}
+\end{document}
